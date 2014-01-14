@@ -1,0 +1,63 @@
+def collapse(nested_list):
+    new_list = []
+    for list in nested_list:
+        new_list = new_list + list
+    return new_list
+
+import math
+
+def is_perm(num1, num2):
+    list1 = list(str(num1))
+    list2 = list(str(num2))
+    for i in list1:
+        if i in list2:
+            list2.remove(i)
+        else:
+            return False
+    return True
+
+
+list_primes =[]
+prime = 1000
+number = prime + 1
+while prime < 9000:
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0:
+            number = number + 1
+            break
+    else:
+        prime = number
+        number = number + 1
+        list_primes.append(prime)
+list_primes.remove(list_primes[len(list_primes)-1])
+
+
+list_perms = []
+list_primes2 = [] + list_primes
+for n1 in list_primes:
+    list_primes2.remove(n1)
+    for n2 in list_primes2:
+        if is_perm(n1,n2) == True:
+            if n1 not in list_perms:
+                list_perms = list_perms + [n1,n2]
+            elif n2 not in list_perms:
+                list_perms.append(n2)
+
+all_perms = []
+while len(list_perms) > 2:
+    permlist =[]
+    while is_perm(list_perms[0], list_perms[1]) == True:
+        permlist.append(list_perms[1])
+        list_perms.remove(list_perms[1])
+    permlist.insert(0, list_perms[0])
+    list_perms.remove(list_perms[0])
+    all_perms.append(permlist)
+
+if is_perm(list_perms[0],all_perms[len(all_perms)-1][0]) == True:
+    all_perms[len(all_perms)-1].append(list_perms[0])
+    all_perms[len(all_perms)-1].append(list_perms[1])
+else:
+    all_perms.append(list_perms)
+    
+all=collapse(all_perms)
+print len(all)

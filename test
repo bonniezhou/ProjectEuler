@@ -1,0 +1,12 @@
+import math
+prime = 5
+number = prime + 1
+while prime < 1000:
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0:
+            number = number + 1
+            break
+    else:
+        prime = number
+        number = number + 1
+        print prime, 1./prime
